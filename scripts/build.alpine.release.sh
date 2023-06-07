@@ -1,23 +1,28 @@
 #!/bin/bash
-set -xe
+
+# git clone https://github.com/iyarivky/subconverter/
+# cd subconverter
 
 apk add gcc g++ build-base linux-headers cmake make autoconf automake libtool python2
 apk add mbedtls-dev mbedtls-static zlib-dev rapidjson-dev libevent-dev libevent-static zlib-static pcre2-dev
 
 git clone https://github.com/curl/curl
+git clone https://github.com/jbeder/yaml-cpp --depth=1
+git clone https://github.com/ftk/quickjspp --depth=1
+git clone https://github.com/PerMalmberg/libcron --depth=1
+git clone https://github.com/ToruNiina/toml11 --depth=1
+
 cd curl
 git checkout curl-7_88_0
 cmake -DCURL_USE_MBEDTLS=ON -DHTTP_ONLY=ON -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=OFF -DCMAKE_USE_LIBSSH2=OFF -DBUILD_CURL_EXE=OFF . > /dev/null
 make install -j2 > /dev/null
 cd ..
 
-git clone https://github.com/jbeder/yaml-cpp --depth=1
 cd yaml-cpp
 cmake -DCMAKE_BUILD_TYPE=Release -DYAML_CPP_BUILD_TESTS=OFF -DYAML_CPP_BUILD_TOOLS=OFF . > /dev/null
 make install -j2 > /dev/null
 cd ..
 
-git clone https://github.com/ftk/quickjspp --depth=1
 cd quickjspp
 cmake -DCMAKE_BUILD_TYPE=Release .
 make quickjs -j2
@@ -27,14 +32,12 @@ install -m644 quickjs/quickjs.h quickjs/quickjs-libc.h /usr/include/quickjs/
 install -m644 quickjspp.hpp /usr/include/
 cd ..
 
-git clone https://github.com/PerMalmberg/libcron --depth=1
 cd libcron
 git submodule update --init
 cmake -DCMAKE_BUILD_TYPE=Release .
 make libcron install -j2
 cd ..
 
-git clone https://github.com/ToruNiina/toml11 --depth=1
 cd toml11
 cmake -DCMAKE_CXX_STANDARD=11 .
 make install -j4
