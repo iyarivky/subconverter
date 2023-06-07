@@ -3,7 +3,7 @@
 # git clone https://github.com/iyarivky/subconverter/
 # cd subconverter
 
-apk add gcc g++ build-base linux-headers cmake make autoconf automake libtool python2
+apk add gcc g++ build-base linux-headers cmake make autoconf automake libtool python3
 apk add mbedtls-dev mbedtls-static zlib-dev rapidjson-dev libevent-dev libevent-static zlib-static pcre2-dev
 
 git clone https://github.com/curl/curl
